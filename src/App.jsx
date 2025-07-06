@@ -49,3 +49,65 @@ export default function App() {
           <button
             key={tag}
             onClick={() => handleTagClick(tag)}
+            className={`px-3 py-1 rounded-full border ${
+              selectedTags.includes(tag)
+                ? "bg-green-500 text-white"
+                : "bg-white text-green-800"
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+      <div className="grid gap-4 max-w-xl mx-auto">
+        {unusedSuggestions.map((suggestion, idx) => (
+          <div
+            key={idx}
+            className="p-4 rounded-2xl bg-white/80 backdrop-blur shadow-md"
+          >
+            <p className="mb-2">{suggestion.text}</p>
+            <div className="flex justify-between items-center">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                  suggestion.text
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                Tweet it
+              </a>
+              <button
+                onClick={() => handleUseTweet(suggestion)}
+                className="text-sm text-green-600"
+              >
+                Mark as used
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="text-center mt-6">
+        <button
+          onClick={handleRefresh}
+          className="px-4 py-2 rounded-full bg-green-500 text-white mt-4"
+        >
+          Refresh Suggestions
+        </button>
+      </div>
+      {usedSuggestions.length > 0 && (
+        <div className="max-w-xl mx-auto mt-6">
+          <h2 className="text-lg font-semibold mb-2">Used Tweets</h2>
+          {usedSuggestions.map((tweet, idx) => (
+            <div
+              key={idx}
+              className="p-3 mb-2 rounded-xl bg-gray-100 text-gray-600"
+            >
+              {tweet.text}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
